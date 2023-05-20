@@ -16,10 +16,15 @@ class FloatingBottomBar extends StatefulWidget {
   /// Shadows from background of bottom bar.
   final List<BoxShadow>? shadows;
 
-  /// The padding for childs.
+  /// The margin of floating bar sides.
   ///
   /// By default is set for [EdgeInsets.all(8)].
-  final EdgeInsets padding;
+  final EdgeInsets margin;
+
+  /// Maximum width of floating bar container.
+  ///
+  /// By default is set for [double.maxFinite].
+  final double maxWidth;
 
   /// List of icons that displayed in bottom bar.
   final List<IconData> icons;
@@ -32,14 +37,22 @@ class FloatingBottomBar extends StatefulWidget {
   /// By default is set for 4.
   final double blur;
 
+  /// Alignment of bar.
+  ///
+  /// By defaul is set for [Alignment.bottomCenter]
+  final Alignment alignment;
+
+  /// Callback about switching the selected bar element to [selectedIndex].
   final Function(int selectedIndex) onSelected;
 
   const FloatingBottomBar({
     this.surfaceColor,
     this.shadows,
-    this.padding = const EdgeInsets.all(8),
+    this.margin = const EdgeInsets.only(left: 64, right: 64, bottom: 32),
+    this.maxWidth = double.maxFinite,
     this.blur = 4,
     this.startItemIndex = 0,
+    this.alignment = Alignment.bottomCenter,
     required this.icons,
     required this.activeColor,
     required this.inactiveColor,
@@ -56,6 +69,8 @@ class FloatingBottomBar extends StatefulWidget {
 }
 
 class _FloatingBottomBarState extends State<FloatingBottomBar> {
+  static const double childPadding = 16;
+
   /// Selected index in [widget.icons].
   late int _nowSelectedIndex;
 
@@ -78,28 +93,33 @@ class _FloatingBottomBarState extends State<FloatingBottomBar> {
         )
     ];
 
-    return Padding(
-      padding: widget.padding,
-      // Create blur effect.
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(1000),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: widget.blur, sigmaY: widget.blur),
-          child: Material(
-            color: widget.surfaceColor,
-            child: Container(
-              clipBehavior: Clip.hardEdge,
-              height: 128,
-              width: double.infinity,
-              decoration: ShapeDecoration(
-                shape: const StadiumBorder(),
-                shadows: widget.shadows,
-              ),
-              padding: EdgeInsets.all(16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: iconButtons,
+    return Align(
+      alignment: widget.alignment,
+      child: Padding(
+        padding: widget.margin,
+        // Create blur effect.
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(1000),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: widget.blur, sigmaY: widget.blur),
+            child: Material(
+              color: widget.surfaceColor,
+              // Content
+              child: Container(
+                constraints: BoxConstraints(maxWidth: widget.maxWidth),
+                clipBehavior: Clip.hardEdge,
+                height: 128,
+                decoration: ShapeDecoration(
+                  shape: const StadiumBorder(),
+                  shadows: widget.shadows,
+                ),
+                padding: const EdgeInsets.all(childPadding),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: iconButtons,
+                ),
               ),
             ),
           ),
