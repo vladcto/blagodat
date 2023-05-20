@@ -83,6 +83,7 @@ class _FloatingBottomBarState extends State<FloatingBottomBar> {
   @override
   Widget build(BuildContext context) {
     final iconButtons = [
+      // Build active or inactive icon button.
       for (int i = 0; i < widget.icons.length; i++)
         _BottomBarIconButton(
           onTap: () => _updateSelectedIndex(i),
@@ -90,6 +91,7 @@ class _FloatingBottomBarState extends State<FloatingBottomBar> {
           color: _nowSelectedIndex == i
               ? widget.activeColor
               : widget.inactiveColor,
+          isEnabled: _nowSelectedIndex == i,
         )
     ];
 
@@ -140,28 +142,40 @@ class _FloatingBottomBarState extends State<FloatingBottomBar> {
 
 class _BottomBarIconButton extends StatelessWidget {
   static const double inkWellPadding = 4;
+  static const scaleDuration = Duration(milliseconds: 100);
+  static const maxScale = 1.0;
+  static const minScale = 0.85;
 
   final Function() onTap;
   final IconData iconData;
   final Color color;
+
+  /// Button is active or not.
+  final bool isEnabled;
+
   const _BottomBarIconButton({
     required this.onTap,
     required this.iconData,
     required this.color,
+    required this.isEnabled,
   });
 
   @override
   Widget build(BuildContext context) {
-    return FittedBox(
-      fit: BoxFit.fitHeight,
-      child: InkWell(
-        onTap: onTap,
-        customBorder: const StadiumBorder(),
-        child: Padding(
-          padding: const EdgeInsets.all(inkWellPadding),
-          child: Icon(
-            iconData,
-            color: color,
+    return AnimatedScale(
+      duration: scaleDuration,
+      scale: isEnabled ? maxScale : minScale,
+      child: FittedBox(
+        fit: BoxFit.fitHeight,
+        child: InkWell(
+          onTap: onTap,
+          customBorder: const StadiumBorder(),
+          child: Padding(
+            padding: const EdgeInsets.all(inkWellPadding),
+            child: Icon(
+              iconData,
+              color: color,
+            ),
           ),
         ),
       ),
