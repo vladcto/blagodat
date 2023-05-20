@@ -1,3 +1,4 @@
+import 'package:blagodat/presentation/widgets/floating_bottom_bar.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -9,11 +10,21 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
+        extendBody: true,
+        bottomNavigationBar: FloatingBottomBar(
+          activeColor: Colors.yellow,
+          inactiveColor: Colors.white,
+          icons: const [
+            Icons.abc,
+            Icons.home,
+            Icons.circle,
+          ],
+          padding: EdgeInsets.symmetric(vertical: 32, horizontal: 64),
+          surfaceColor: Colors.black.withOpacity(0.8),
         ),
+        body: const Placeholder(),
       ),
     );
   }
