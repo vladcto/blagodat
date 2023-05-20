@@ -22,6 +22,7 @@ class MainApp extends StatelessWidget {
             Icons.circle,
           ],
           padding: EdgeInsets.symmetric(vertical: 32, horizontal: 64),
+          onSelected: (i) => print("Selected $i"),
           surfaceColor: Colors.black.withOpacity(0.8),
         ),
         body: const Placeholder(),

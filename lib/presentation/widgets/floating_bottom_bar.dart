@@ -24,29 +24,60 @@ class FloatingBottomBar extends StatefulWidget {
   /// List of icons that displayed in bottom bar.
   final List<IconData> icons;
 
+  /// Index of start selected icon from [icons].
+  final int startItemIndex;
+
   /// The blur of background of bottom bar.
   ///
   /// By default is set for 4.
   final double blur;
+
+  final Function(int selectedIndex) onSelected;
 
   const FloatingBottomBar({
     this.surfaceColor,
     this.shadows,
     this.padding = const EdgeInsets.all(8),
     this.blur = 4,
+    this.startItemIndex = 0,
     required this.icons,
     required this.activeColor,
     required this.inactiveColor,
+    required this.onSelected,
     Key? key,
-  }) : super(key: key);
+  })  : assert(
+          startItemIndex < icons.length,
+          "Start item index shoud be contained in icons.",
+        ),
+        super(key: key);
 
   @override
   State<FloatingBottomBar> createState() => _FloatingBottomBarState();
 }
 
 class _FloatingBottomBarState extends State<FloatingBottomBar> {
+  /// Selected index in [widget.icons].
+  late int _nowSelectedIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    _nowSelectedIndex = widget.startItemIndex;
+  }
+
   @override
   Widget build(BuildContext context) {
+    final iconButtons = [
+      for (int i = 0; i < widget.icons.length; i++)
+        _BottomBarIconButton(
+          onTap: () => _updateSelectedIndex(i),
+          iconData: widget.icons[i],
+          color: _nowSelectedIndex == i
+              ? widget.activeColor
+              : widget.inactiveColor,
+        )
+    ];
+
     return Padding(
       padding: widget.padding,
       // Create blur effect.
@@ -68,20 +99,22 @@ class _FloatingBottomBarState extends State<FloatingBottomBar> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: widget.icons
-                    .map(
-                      (item) => _BottomBarIconButton(
-                        onTap: () {},
-                        iconData: item,
-                      ),
-                    )
-                    .toList(),
+                children: iconButtons,
               ),
             ),
           ),
         ),
       ),
     );
+  }
+
+  /// Updates selected item.
+  void _updateSelectedIndex(int selectedIndex) {
+    if (_nowSelectedIndex == selectedIndex) return;
+    setState(() {
+      _nowSelectedIndex = selectedIndex;
+    });
+    widget.onSelected(_nowSelectedIndex);
   }
 }
 
@@ -90,7 +123,12 @@ class _BottomBarIconButton extends StatelessWidget {
 
   final Function() onTap;
   final IconData iconData;
-  const _BottomBarIconButton({required this.onTap, required this.iconData});
+  final Color color;
+  const _BottomBarIconButton({
+    required this.onTap,
+    required this.iconData,
+    required this.color,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -101,7 +139,10 @@ class _BottomBarIconButton extends StatelessWidget {
         customBorder: const StadiumBorder(),
         child: Padding(
           padding: const EdgeInsets.all(inkWellPadding),
-          child: Icon(iconData),
+          child: Icon(
+            iconData,
+            color: color,
+          ),
         ),
       ),
     );
