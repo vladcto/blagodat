@@ -1,3 +1,4 @@
+import 'package:blagodat/presentation/theme/app_theme.dart';
 import 'package:blagodat/presentation/widgets/floating_bottom_bar.dart';
 import 'package:flutter/material.dart';
 
@@ -11,6 +12,7 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: AppTheme.lightTheme,
       home: Scaffold(
         extendBody: true,
         bottomNavigationBar: FloatingBottomBar(
