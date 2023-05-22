@@ -26,6 +26,11 @@ class FloatingBottomBar extends StatefulWidget {
   /// By default is set for [double.maxFinite].
   final double maxWidth;
 
+  /// Height of floating bar container.
+  ///
+  /// By default is set for 96.
+  final double height;
+
   /// List of icons that displayed in bottom bar.
   final List<IconData> icons;
 
@@ -50,6 +55,7 @@ class FloatingBottomBar extends StatefulWidget {
     this.shadows,
     this.margin = const EdgeInsets.only(left: 64, right: 64, bottom: 32),
     this.maxWidth = double.maxFinite,
+    this.height = 96,
     this.blur = 4,
     this.startItemIndex = 0,
     this.alignment = Alignment.bottomCenter,
@@ -85,13 +91,15 @@ class _FloatingBottomBarState extends State<FloatingBottomBar> {
     final iconButtons = [
       // Build active or inactive icon button.
       for (int i = 0; i < widget.icons.length; i++)
-        _BottomBarIconButton(
-          onTap: () => _updateSelectedIndex(i),
-          iconData: widget.icons[i],
-          color: _nowSelectedIndex == i
-              ? widget.activeColor
-              : widget.inactiveColor,
-          isEnabled: _nowSelectedIndex == i,
+        Expanded(
+          child: _BottomBarIconButton(
+            onTap: () => _updateSelectedIndex(i),
+            iconData: widget.icons[i],
+            color: _nowSelectedIndex == i
+                ? widget.activeColor
+                : widget.inactiveColor,
+            isEnabled: _nowSelectedIndex == i,
+          ),
         )
     ];
 
@@ -110,7 +118,7 @@ class _FloatingBottomBarState extends State<FloatingBottomBar> {
               child: Container(
                 constraints: BoxConstraints(maxWidth: widget.maxWidth),
                 clipBehavior: Clip.hardEdge,
-                height: 128,
+                height: widget.height,
                 decoration: ShapeDecoration(
                   shape: const StadiumBorder(),
                   shadows: widget.shadows,
@@ -166,7 +174,6 @@ class _BottomBarIconButton extends StatelessWidget {
       duration: scaleDuration,
       scale: isEnabled ? maxScale : minScale,
       child: FittedBox(
-        fit: BoxFit.fitHeight,
         child: InkWell(
           onTap: onTap,
           customBorder: const StadiumBorder(),
