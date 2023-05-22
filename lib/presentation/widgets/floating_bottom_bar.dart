@@ -4,6 +4,13 @@ import 'package:flutter/material.dart';
 
 /// Navigation bar with stadium borders.
 class FloatingBottomBar extends StatefulWidget {
+  static const kMargin = EdgeInsets.only(left: 64, right: 64, bottom: 32);
+  static const kHeight = 96.0;
+  static const kBlur = 4.0;
+  static const kChildPadding = 8.0;
+  static const kDoubleWidth = double.maxFinite;
+  static const kAlignment = Alignment.bottomCenter;
+
   /// Background color of bottom bar.
   final Color? surfaceColor;
 
@@ -18,7 +25,7 @@ class FloatingBottomBar extends StatefulWidget {
 
   /// The margin of floating bar sides.
   ///
-  /// By default is set for [EdgeInsets.all(8)].
+  /// By default is set for [kMargin].
   final EdgeInsets margin;
 
   /// Maximum width of floating bar container.
@@ -28,7 +35,7 @@ class FloatingBottomBar extends StatefulWidget {
 
   /// Height of floating bar container.
   ///
-  /// By default is set for 96.
+  /// By default is set for [kHeight].
   final double height;
 
   /// List of icons that displayed in bottom bar.
@@ -39,13 +46,18 @@ class FloatingBottomBar extends StatefulWidget {
 
   /// The blur of background of bottom bar.
   ///
-  /// By default is set for 4.
+  /// By default is set for [kBlur].
   final double blur;
 
   /// Alignment of bar.
   ///
-  /// By defaul is set for [Alignment.bottomCenter]
+  /// By defaul is set for [kAlignment]
   final Alignment alignment;
+
+  /// Padding of items in floating bottom bar.
+  ///
+  /// By default is set for [kChildPadding].
+  final double childPadding;
 
   /// Callback about switching the selected bar element to [selectedIndex].
   final Function(int selectedIndex) onSelected;
@@ -53,12 +65,13 @@ class FloatingBottomBar extends StatefulWidget {
   const FloatingBottomBar({
     this.surfaceColor,
     this.shadows,
-    this.margin = const EdgeInsets.only(left: 64, right: 64, bottom: 32),
-    this.maxWidth = double.maxFinite,
-    this.height = 96,
-    this.blur = 4,
+    this.margin = kMargin,
+    this.maxWidth = kDoubleWidth,
+    this.height = kHeight,
+    this.blur = kBlur,
     this.startItemIndex = 0,
-    this.alignment = Alignment.bottomCenter,
+    this.alignment = kAlignment,
+    this.childPadding = kChildPadding,
     required this.icons,
     required this.activeColor,
     required this.inactiveColor,
@@ -75,9 +88,6 @@ class FloatingBottomBar extends StatefulWidget {
 }
 
 class _FloatingBottomBarState extends State<FloatingBottomBar> {
-  // TODO: Вынести настройку в конструктор.
-  static const double childPadding = 16;
-
   /// Selected index in [widget.icons].
   late int _nowSelectedIndex;
 
@@ -124,7 +134,7 @@ class _FloatingBottomBarState extends State<FloatingBottomBar> {
                   shape: const StadiumBorder(),
                   shadows: widget.shadows,
                 ),
-                padding: const EdgeInsets.all(childPadding),
+                padding: EdgeInsets.all(widget.childPadding),
                 child: Row(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -150,7 +160,6 @@ class _FloatingBottomBarState extends State<FloatingBottomBar> {
 }
 
 class _BottomBarIconButton extends StatelessWidget {
-  // TODO: Вынести настройку в конструктор.
   static const double inkWellPadding = 4;
   static const scaleDuration = Duration(milliseconds: 100);
   static const maxScale = 1.0;
