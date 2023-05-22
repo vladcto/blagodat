@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 class HomeFragment extends StatelessWidget {
+  static const double headerSize = 100;
+  static const double categoryHeaderSize = 38;
+
   const HomeFragment({Key? key}) : super(key: key);
 
   @override
@@ -9,8 +12,8 @@ class HomeFragment extends StatelessWidget {
       slivers: [
         // TODO: Header
         const SliverAppBar(
-          expandedHeight: 200,
-          collapsedHeight: 100,
+          expandedHeight: headerSize * 2,
+          collapsedHeight: headerSize,
           pinned: true,
           flexibleSpace: FlexibleSpaceBar(
             expandedTitleScale: 1,
@@ -29,8 +32,9 @@ class HomeFragment extends StatelessWidget {
         // TODO: Categories
         const SliverAppBar(
           pinned: true,
+          // Disable expanding
           toolbarHeight: 1,
-          collapsedHeight: 38,
+          collapsedHeight: categoryHeaderSize,
           flexibleSpace: FlexibleSpaceBar(
             titlePadding: EdgeInsets.zero,
             title: Placeholder(
