@@ -75,6 +75,7 @@ class FloatingBottomBar extends StatefulWidget {
 }
 
 class _FloatingBottomBarState extends State<FloatingBottomBar> {
+  // TODO: Вынести настройку в конструктор.
   static const double childPadding = 16;
 
   /// Selected index in [widget.icons].
@@ -149,6 +150,7 @@ class _FloatingBottomBarState extends State<FloatingBottomBar> {
 }
 
 class _BottomBarIconButton extends StatelessWidget {
+  // TODO: Вынести настройку в конструктор.
   static const double inkWellPadding = 4;
   static const scaleDuration = Duration(milliseconds: 100);
   static const maxScale = 1.0;
