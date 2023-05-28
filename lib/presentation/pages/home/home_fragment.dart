@@ -62,27 +62,28 @@ class HomeFragment extends StatelessWidget {
 }
 
 class _ProductSliverList extends ConsumerWidget {
-  static const cardHeight = 226.0;
-  static const cardWidth = 156.0;
+  static const cardRatio = 156 / 225;
 
   const _ProductSliverList();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final product = ref.watch(assortmentProvider).products[0];
-
-    return SliverGrid.count(
-      crossAxisCount: 2,
-      childAspectRatio: cardWidth / cardHeight,
-      children: [
+    final products = ref.watch(assortmentProvider).products;
+    final productCards = [
+      for (final product in products)
         Center(
-          child: SizedBox(
-            height: cardHeight,
-            width: cardWidth,
+          child: Padding(
+            padding: const EdgeInsets.all(Paddings.small),
             child: ProductHomePreviewCard(product: product),
           ),
         ),
-      ],
+    ];
+
+    return SliverGrid.count(
+      crossAxisCount: 2,
+      childAspectRatio: cardRatio,
+      mainAxisSpacing: Paddings.small,
+      children: productCards,
     );
   }
 }
