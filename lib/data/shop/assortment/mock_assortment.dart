@@ -6,7 +6,49 @@ class MockAssortment implements Assortment {
   static final _products = [
     Product(
       uid: _AutoId.id,
-      name: "Some",
+      name: "Аромат Паленных Дров",
+      imageURL:
+          "https://upload.wikimedia.org/wikipedia/commons/6/6b/Eastern_Orthodox_man_in_Jerusalem_by_David_Shankbone.jpg",
+      cost: 0.99,
+    ),
+    Product(
+      uid: _AutoId.id,
+      name: "Аромат Паленных Дров",
+      imageURL:
+          "https://upload.wikimedia.org/wikipedia/commons/6/6b/Eastern_Orthodox_man_in_Jerusalem_by_David_Shankbone.jpg",
+      cost: 0.99,
+    ),
+    Product(
+      uid: _AutoId.id,
+      name: "Аромат Паленных Дров",
+      imageURL:
+          "https://upload.wikimedia.org/wikipedia/commons/6/6b/Eastern_Orthodox_man_in_Jerusalem_by_David_Shankbone.jpg",
+      cost: 0.99,
+    ),
+    Product(
+      uid: _AutoId.id,
+      name: "Аромат Паленных Дров",
+      imageURL:
+          "https://upload.wikimedia.org/wikipedia/commons/6/6b/Eastern_Orthodox_man_in_Jerusalem_by_David_Shankbone.jpg",
+      cost: 0.99,
+    ),
+    Product(
+      uid: _AutoId.id,
+      name: "Аромат Паленных Дров",
+      imageURL:
+          "https://upload.wikimedia.org/wikipedia/commons/6/6b/Eastern_Orthodox_man_in_Jerusalem_by_David_Shankbone.jpg",
+      cost: 0.99,
+    ),
+    Product(
+      uid: _AutoId.id,
+      name: "Аромат Паленных Дров",
+      imageURL:
+          "https://upload.wikimedia.org/wikipedia/commons/6/6b/Eastern_Orthodox_man_in_Jerusalem_by_David_Shankbone.jpg",
+      cost: 0.99,
+    ),
+    Product(
+      uid: _AutoId.id,
+      name: "Аромат Паленных Дров",
       imageURL:
           "https://upload.wikimedia.org/wikipedia/commons/6/6b/Eastern_Orthodox_man_in_Jerusalem_by_David_Shankbone.jpg",
       cost: 0.99,
