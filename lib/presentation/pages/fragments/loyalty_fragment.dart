@@ -13,34 +13,39 @@ class LoyaltyFragment extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
-      children: [
-        SizedBox(
-          width: double.infinity,
-          child: BrandHeader(
-            brandedText: headerText,
+    return const SafeArea(
+      bottom: false,
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          SizedBox(
+            width: double.infinity,
+            child: BrandHeader(
+              brandedText: headerText,
+            ),
           ),
-        ),
-        // TODO: Info card.
-        Flexible(
-          flex: 2,
-          fit: FlexFit.tight,
-          child: Placeholder(),
-        ),
-        // TODO: Levels info.
-        Flexible(
-          flex: 3,
-          fit: FlexFit.tight,
-          child: Placeholder(),
-        ),
-        // TODO: Bonus count info.
-        SizedBox(
-          height: 120,
-          child: Placeholder(),
-        ),
-        // Bottom bar space
-        SizedBox(height: MainPage.pageBarPadding),
-      ],
+          // TODO: Info card.
+          Flexible(
+            flex: 2,
+            fit: FlexFit.tight,
+            child: Placeholder(),
+          ),
+          // TODO: Levels info.
+          Flexible(
+            flex: 3,
+            fit: FlexFit.tight,
+            child: Placeholder(),
+          ),
+          // TODO: Bonus count info.
+          SizedBox(
+            height: 120,
+            child: Placeholder(),
+          ),
+          // Bottom bar space
+          SizedBox(height: MainPage.pageBarPadding),
+        ],
+      ),
     );
   }
 }
