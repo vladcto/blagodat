@@ -2,6 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'product.freezed.dart';
 
+/// Вся информация о товаре в магазине.
 @freezed
 class Product with _$Product {
   @Assert('cost > 0')

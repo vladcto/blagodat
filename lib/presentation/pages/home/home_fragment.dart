@@ -17,9 +17,9 @@ class HomeFragment extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
+    return const CustomScrollView(
       slivers: [
-        const SliverAppBar(
+        SliverAppBar(
           expandedHeight: expandedHeight,
           collapsedHeight: BrandHeader.kHeaderHeight,
           pinned: true,
@@ -33,14 +33,11 @@ class HomeFragment extends StatelessWidget {
           ),
         ),
         // TODO: Promo
-        // TODO: Заменить на [SliverToBoxAdapter]
-        SliverList(
-          delegate: SliverChildListDelegate(
-            [const Placeholder(fallbackHeight: 300)],
-          ),
+        SliverToBoxAdapter(
+          child: Placeholder(fallbackHeight: 300),
         ),
         // TODO: Categories
-        const SliverAppBar(
+        SliverAppBar(
           pinned: true,
           // Disable expanding
           toolbarHeight: 1,
@@ -52,7 +49,7 @@ class HomeFragment extends StatelessWidget {
             ),
           ),
         ),
-        const SliverPadding(
+        SliverPadding(
           padding: EdgeInsets.symmetric(horizontal: Paddings.medium),
           sliver: _ProductSliverList(),
         ),
@@ -61,6 +58,7 @@ class HomeFragment extends StatelessWidget {
   }
 }
 
+/// Список товавров в магазине.
 class _ProductSliverList extends ConsumerWidget {
   static const cardRatio = 156 / 225;
 
@@ -71,6 +69,7 @@ class _ProductSliverList extends ConsumerWidget {
     final products = ref.watch(assortmentProvider).products;
     final productCards = [
       for (final product in products)
+        // Центруем, чтобы поместить в ячейку [SliverGrid].
         Center(
           child: Padding(
             padding: const EdgeInsets.all(Paddings.small),
@@ -79,6 +78,7 @@ class _ProductSliverList extends ConsumerWidget {
         ),
     ];
 
+    // ? Может быть заменить на [SliverGrid.builder]
     return SliverGrid.count(
       crossAxisCount: 2,
       childAspectRatio: cardRatio,
