@@ -1,9 +1,12 @@
-import 'package:blagodat/presentation/widgets/header_text.dart';
+import 'package:blagodat/presentation/widgets/brand_header.dart';
 import 'package:flutter/material.dart';
 
 class HomeFragment extends StatelessWidget {
-  static const double headerSize = 100;
+  static const headerText = BrandedTextWithColor("Благо", "Дать");
   static const double categoryHeaderSize = 38;
+
+  /// Height that AppBar can expand.
+  static const double expandedHeight = BrandHeader.kHeaderHeight + 25;
 
   const HomeFragment({Key? key}) : super(key: key);
 
@@ -11,16 +14,15 @@ class HomeFragment extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomScrollView(
       slivers: [
-        // TODO: Header
         const SliverAppBar(
-          expandedHeight: headerSize,
-          collapsedHeight: headerSize,
+          expandedHeight: expandedHeight,
+          collapsedHeight: BrandHeader.kHeaderHeight,
           pinned: true,
           flexibleSpace: FlexibleSpaceBar(
             expandedTitleScale: 1,
             titlePadding: EdgeInsets.zero,
             title: BrandHeader(
-              brandedText: BrandedTextWithColor("Благо", "Дать"),
+              brandedText: headerText,
               trailing: Icon(Icons.abc),
             ),
           ),

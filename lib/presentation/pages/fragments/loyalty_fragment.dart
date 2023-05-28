@@ -1,9 +1,14 @@
 import 'package:blagodat/presentation/pages/main_page.dart';
-import 'package:blagodat/presentation/widgets/header_text.dart';
+import 'package:blagodat/presentation/widgets/brand_header.dart';
 import 'package:flutter/material.dart';
 
 /// Page fragment with the description of the loyalty program.
 class LoyaltyFragment extends StatelessWidget {
+  static const headerText = BrandedTextWithColor(
+    "Loyalty ",
+    "Program",
+  );
+
   const LoyaltyFragment({Key? key}) : super(key: key);
 
   @override
@@ -13,10 +18,7 @@ class LoyaltyFragment extends StatelessWidget {
         SizedBox(
           width: double.infinity,
           child: BrandHeader(
-            brandedText: BrandedTextWithColor(
-              "Loyalty ",
-              "Program",
-            ),
+            brandedText: headerText,
           ),
         ),
         // TODO: Info card.

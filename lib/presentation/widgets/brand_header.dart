@@ -20,27 +20,25 @@ class BrandHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Placeholder(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: Paddings.maximum,
-          vertical: Paddings.small,
-        ),
-        child: SizedBox(
-          height: kHeaderHeight,
-          width: double.infinity,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Expanded(
-                child: _BrandHeaderText(brandedText),
-              ),
-              Align(
-                alignment: Alignment.centerRight,
-                child: trailing ?? const SizedBox.shrink(),
-              ),
-            ],
-          ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: Paddings.maximum,
+        vertical: Paddings.small,
+      ),
+      child: SizedBox(
+        height: kHeaderHeight,
+        width: double.infinity,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Expanded(
+              child: _BrandHeaderText(brandedText),
+            ),
+            Align(
+              alignment: Alignment.centerRight,
+              child: trailing ?? const SizedBox.shrink(),
+            ),
+          ],
         ),
       ),
     );
