@@ -134,3 +134,7 @@ app.*.symbols
 
 # Ignore fvm
 .fvm/flutter_sdk
+
+# Generated ignore
+*.freezed.dart
+*.g.dart

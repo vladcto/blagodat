@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../widgets/floating_bottom_bar.dart';
-import 'fragments/home_fragment.dart';
+import 'home/home_fragment.dart';
 import 'fragments/loyalty_fragment.dart';
 
 final _pageIndexProvider = StateProvider<int>((ref) => 0);
