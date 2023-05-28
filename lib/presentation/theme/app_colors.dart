@@ -1,6 +1,8 @@
 import "dart:ui";
 
 sealed class AppColors {
+  /// Main color for app.
+  static const mainTheme = gold;
   static const gold = Color.fromRGBO(248, 222, 0, 1);
   static const mainOrange = Color.fromRGBO(255, 193, 7, 1);
   static const darkOrange = Color.fromRGBO(251, 192, 45, 1);
