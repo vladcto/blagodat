@@ -1,3 +1,4 @@
+import 'package:blagodat/presentation/widgets/header_text.dart';
 import 'package:flutter/material.dart';
 
 class HomeFragment extends StatelessWidget {
@@ -12,14 +13,15 @@ class HomeFragment extends StatelessWidget {
       slivers: [
         // TODO: Header
         const SliverAppBar(
-          expandedHeight: headerSize * 2,
+          expandedHeight: headerSize,
           collapsedHeight: headerSize,
           pinned: true,
           flexibleSpace: FlexibleSpaceBar(
             expandedTitleScale: 1,
             titlePadding: EdgeInsets.zero,
-            title: Placeholder(
-              color: Colors.yellow,
+            title: BrandHeader(
+              brandedText: BrandedTextWithColor("Благо", "Дать"),
+              trailing: Icon(Icons.abc),
             ),
           ),
         ),
