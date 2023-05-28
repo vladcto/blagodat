@@ -1,5 +1,6 @@
 import 'package:blagodat/presentation/constants/paddings.dart';
 import 'package:blagodat/presentation/pages/main_page.dart';
+import 'package:blagodat/presentation/widgets/header_text.dart';
 import 'package:flutter/material.dart';
 
 class SettingsFragment extends StatelessWidget {
@@ -10,10 +11,10 @@ class SettingsFragment extends StatelessWidget {
     return const Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        // TODO: Header.
         SizedBox(
-          height: 120,
-          child: Placeholder(),
+          child: BrandHeader(
+            brandedText: BrandedTextWithColor("Set", "tings"),
+          ),
         ),
         // TODO: Theme settings.
         Expanded(

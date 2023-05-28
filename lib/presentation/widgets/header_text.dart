@@ -6,7 +6,8 @@ import '../theme/app_colors.dart';
 
 /// Widget that displays the page name as a branded header.
 class BrandHeader extends StatelessWidget {
-  static const double kHeaderHeight = 320;
+  /// Height of header container.
+  static const double kHeaderHeight = 90;
 
   /// Header text with several color.
   final BrandedTextWithColor brandedText;
