@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 ///
 /// Используется для страницы навигации и страницы корзины.
 class SubPage extends StatelessWidget {
-  static const double appBarHeight = 100;
+  static const double appBarHeight = 70;
 
   /// Название страницы, отображаемое по центру сверху.
   final String title;
@@ -23,11 +23,18 @@ class SubPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final statusBarHeight = MediaQuery.of(context).padding.top;
+
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(appBarHeight),
         child: Padding(
-          padding: const EdgeInsets.all(Paddings.maximum),
+          padding: EdgeInsets.only(
+            left: Paddings.small,
+            top: statusBarHeight / 2,
+            right: Paddings.small,
+            bottom: Paddings.small,
+          ),
           child: _SubPageAppBar(
             title: title,
             trailing: trailing,
@@ -76,7 +83,7 @@ class _SubPageAppBar extends StatelessWidget {
         Expanded(
           flex: 3,
           child: Padding(
-            padding: const EdgeInsets.all(Paddings.medium + 2),
+            padding: const EdgeInsets.all(Paddings.medium + 4),
             child: FittedBox(
               fit: BoxFit.fitHeight,
               child: Text(

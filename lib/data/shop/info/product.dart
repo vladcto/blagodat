@@ -7,6 +7,7 @@ part 'product.freezed.dart';
 class Product with _$Product {
   @Assert('cost > 0')
   @Assert('name.isNotEmpty')
+  @Assert('imageURL.length > 0')
   factory Product({
     /// Уникальный ID продукта.
     required String uid,
@@ -14,8 +15,10 @@ class Product with _$Product {
     /// Название продукта.
     required String name,
 
-    /// Веб-ссылка на изображение продукта.
-    required String imageURL,
+    /// Веб-ссылки на изображение продукта.
+    ///
+    /// Должно быть хотя-бы одно изображение, которое будет являться основным.
+    required List<String> imageURL,
 
     /// Цена продукта в долларах.
     required double cost,
