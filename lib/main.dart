@@ -12,10 +12,10 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: AppTheme.lightTheme,
-      home: const ProviderScope(
-        child: MainPage(),
+    return ProviderScope(
+      child: MaterialApp(
+        theme: AppTheme.lightTheme,
+        home: const MainPage(),
       ),
     );
   }
