@@ -1,4 +1,5 @@
 import 'package:blagodat/data/shop/info/product.dart';
+import 'package:blagodat/presentation/constants/font_sizes.dart';
 import 'package:blagodat/presentation/constants/paddings.dart';
 import 'package:blagodat/presentation/widgets/sub_page.dart';
 import 'package:flutter/material.dart';
@@ -49,10 +50,35 @@ class ProductPreviewPage extends StatelessWidget {
             ),
           ),
           const SizedBox(height: Paddings.large),
-          // TODO: Name and descriptions
-          Text(product.name),
-          const Expanded(
-            child: Placeholder(),
+          // Product name.
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: Paddings.medium),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                product.name,
+                maxLines: 1,
+                style: const TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: FontSize.large,
+                ),
+              ),
+            ),
+          ),
+          // Product description.
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: Paddings.medium),
+              child: SingleChildScrollView(
+                child: Text(
+                  product.description,
+                  textAlign: TextAlign.justify,
+                  style: const TextStyle(
+                    fontSize: FontSize.small,
+                  ),
+                ),
+              ),
+            ),
           ),
           // TODO: Controls
           const Placeholder(fallbackHeight: 88),
