@@ -3,6 +3,10 @@ import 'package:blagodat/presentation/constants/font_sizes.dart';
 import 'package:blagodat/presentation/constants/paddings.dart';
 import 'package:blagodat/presentation/widgets/sub_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+/// Инднекс выбранного [product.imageUrl] для показа.
+final _selectedImageIndex = StateProvider((ref) => 0);
 
 /// Странца, отображающая информацию о товаре.
 class ProductPreviewPage extends StatelessWidget {
@@ -24,9 +28,14 @@ class ProductPreviewPage extends StatelessWidget {
               borderRadius: BorderRadius.circular(16),
               child: AspectRatio(
                 aspectRatio: mainImageRatio,
-                child: Image.network(
-                  product.imageURL[0],
-                  fit: BoxFit.cover,
+                // Selected image in full size.
+                child: Consumer(
+                  builder: (_, ref, child) {
+                    return Image.network(
+                      product.imageURL[ref.watch(_selectedImageIndex)],
+                      fit: BoxFit.cover,
+                    );
+                  },
                 ),
               ),
             ),
@@ -35,19 +44,7 @@ class ProductPreviewPage extends StatelessWidget {
           // Additional images
           SizedBox(
             height: 90,
-            child: ListView.builder(
-              // Images and space btw them.
-              itemCount: product.imageURL.length * 2 - 1,
-              scrollDirection: Axis.horizontal,
-              clipBehavior: Clip.none,
-              padding: const EdgeInsets.symmetric(horizontal: Paddings.medium),
-              // Create images card and space.
-              itemBuilder: (_, i) => i % 2 == 0
-                  ? _SmallImageCard(
-                      product.imageURL[i ~/ 2],
-                    )
-                  : const SizedBox(width: Paddings.small),
-            ),
+            child: _ProductImageListView(product.imageURL),
           ),
           const SizedBox(height: Paddings.large),
           // Product name.
@@ -90,19 +87,57 @@ class ProductPreviewPage extends StatelessWidget {
 
 class _SmallImageCard extends StatelessWidget {
   final String imageUrl;
-  const _SmallImageCard(this.imageUrl);
+  final bool selected;
+
+  const _SmallImageCard(this.imageUrl, this.selected);
 
   @override
   Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 1.0,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(16),
-        child: Image.network(
-          imageUrl,
-          fit: BoxFit.cover,
+    return AnimatedScale(
+      scale: selected ? 1.05 : 0.95,
+      duration: const Duration(milliseconds: 100),
+      child: AspectRatio(
+        aspectRatio: 1.0,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(16),
+          child: Image.network(
+            imageUrl,
+            fit: BoxFit.cover,
+          ),
         ),
       ),
+    );
+  }
+}
+
+class _ProductImageListView extends ConsumerWidget {
+  final List<String> imageUrl;
+  const _ProductImageListView(this.imageUrl);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final int selectedUrlIndex = ref.watch(_selectedImageIndex);
+    final productChilds = [
+      for (int i = 0; i < imageUrl.length; i++)
+        GestureDetector(
+          onTap: () => ref.read(_selectedImageIndex.notifier).state = i,
+          child: _SmallImageCard(
+            imageUrl[i],
+            selectedUrlIndex == i,
+          ),
+        ),
+    ];
+
+    return ListView.builder(
+      // Images and space btw them.
+      itemCount: imageUrl.length * 2 - 1,
+      scrollDirection: Axis.horizontal,
+      clipBehavior: Clip.none,
+      padding: const EdgeInsets.symmetric(horizontal: Paddings.medium),
+      // Create images card and space.
+      itemBuilder: (_, i) => i % 2 == 0
+          ? productChilds[i ~/ 2]
+          : const SizedBox(width: Paddings.small),
     );
   }
 }

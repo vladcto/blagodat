@@ -13,7 +13,7 @@ class MockAssortment implements Assortment {
 Этот аромат позволит вам открыть древние знания и усилить свою интуицию.""",
       imageURL: [
         "https://upload.wikimedia.org/wikipedia/commons/6/6b/Eastern_Orthodox_man_in_Jerusalem_by_David_Shankbone.jpg",
-        "https://upload.wikimedia.org/wikipedia/commons/6/6b/Eastern_Orthodox_man_in_Jerusalem_by_David_Shankbone.jpg",
+        "https://ir.ozone.ru/s3/multimedia-i/wc500/6647844690.jpg",
         "https://upload.wikimedia.org/wikipedia/commons/6/6b/Eastern_Orthodox_man_in_Jerusalem_by_David_Shankbone.jpg",
         "https://upload.wikimedia.org/wikipedia/commons/6/6b/Eastern_Orthodox_man_in_Jerusalem_by_David_Shankbone.jpg",
         "https://upload.wikimedia.org/wikipedia/commons/6/6b/Eastern_Orthodox_man_in_Jerusalem_by_David_Shankbone.jpg",
