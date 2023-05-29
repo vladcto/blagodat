@@ -5,6 +5,8 @@ part 'product.freezed.dart';
 /// Вся информация о товаре в магазине.
 @freezed
 class Product with _$Product {
+  const Product._();
+
   @Assert('cost > 0')
   @Assert('name.isNotEmpty')
   @Assert('imageURL.length > 0')
@@ -26,4 +28,10 @@ class Product with _$Product {
     /// Цена продукта в долларах.
     required double cost,
   }) = _Product;
+
+  @override
+  int get hashCode => uid.hashCode;
+
+  @override
+  bool operator ==(covariant Product other) => other.uid == uid;
 }
