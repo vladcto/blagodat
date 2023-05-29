@@ -83,7 +83,7 @@ class _SubPageAppBar extends StatelessWidget {
         Expanded(
           flex: 3,
           child: Padding(
-            padding: const EdgeInsets.all(Paddings.medium + 4),
+            padding: const EdgeInsets.all(Paddings.medium + 6),
             child: FittedBox(
               fit: BoxFit.fitHeight,
               child: Text(

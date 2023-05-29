@@ -1,6 +1,9 @@
 import 'package:blagodat/data/shop/info/product.dart';
+import 'package:blagodat/presentation/constants/borders_radius.dart';
+import 'package:blagodat/presentation/constants/durations.dart';
 import 'package:blagodat/presentation/constants/font_sizes.dart';
 import 'package:blagodat/presentation/constants/paddings.dart';
+import 'package:blagodat/presentation/constants/shadows.dart';
 import 'package:blagodat/presentation/widgets/sub_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,7 +13,9 @@ final _selectedImageIndex = StateProvider((ref) => 0);
 
 /// Странца, отображающая информацию о товаре.
 class ProductPreviewPage extends StatelessWidget {
+  static const String title = "Просмотр";
   static const mainImageRatio = 360 / 290;
+  static const smallCardSize = 90.0;
 
   final Product product;
   const ProductPreviewPage({Key? key, required this.product}) : super(key: key);
@@ -18,24 +23,29 @@ class ProductPreviewPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SubPage(
-      title: "Preview",
+      title: title,
       body: Column(
         children: [
           // Main image
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: Paddings.medium),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(16),
-              child: AspectRatio(
-                aspectRatio: mainImageRatio,
-                // Selected image in full size.
-                child: Consumer(
-                  builder: (_, ref, child) {
-                    return Image.network(
-                      product.imageURL[ref.watch(_selectedImageIndex)],
-                      fit: BoxFit.cover,
-                    );
-                  },
+            child: AspectRatio(
+              aspectRatio: mainImageRatio,
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  borderRadius: BordersRadius.standart,
+                  boxShadow: const [Shadows.standart],
+                ),
+                child: ClipRRect(
+                  borderRadius: BordersRadius.standart,
+                  child: Consumer(
+                    builder: (_, ref, child) {
+                      return Image.network(
+                        product.imageURL[ref.watch(_selectedImageIndex)],
+                        fit: BoxFit.cover,
+                      );
+                    },
+                  ),
                 ),
               ),
             ),
@@ -43,7 +53,7 @@ class ProductPreviewPage extends StatelessWidget {
           const SizedBox(height: Paddings.medium),
           // Additional images
           SizedBox(
-            height: 90,
+            height: smallCardSize,
             child: _ProductImageListView(product.imageURL),
           ),
           const SizedBox(height: Paddings.large),
@@ -86,6 +96,8 @@ class ProductPreviewPage extends StatelessWidget {
 }
 
 class _SmallImageCard extends StatelessWidget {
+  static const double minScale = 0.95;
+  static const double maxScale = 1.05;
   final String imageUrl;
   final bool selected;
 
@@ -94,15 +106,21 @@ class _SmallImageCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedScale(
-      scale: selected ? 1.05 : 0.95,
-      duration: const Duration(milliseconds: 100),
+      scale: selected ? maxScale : minScale,
+      duration: Durations.standart,
       child: AspectRatio(
         aspectRatio: 1.0,
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(16),
-          child: Image.network(
-            imageUrl,
-            fit: BoxFit.cover,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            borderRadius: BordersRadius.standart,
+            boxShadow: const [Shadows.standart],
+          ),
+          child: ClipRRect(
+            borderRadius: BordersRadius.standart,
+            child: Image.network(
+              imageUrl,
+              fit: BoxFit.cover,
+            ),
           ),
         ),
       ),
