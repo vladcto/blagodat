@@ -1,6 +1,7 @@
 import 'package:blagodat/data/shop/info/product.dart';
 import 'package:blagodat/domain/di.dart';
 import 'package:blagodat/presentation/constants/paddings.dart';
+import 'package:blagodat/presentation/pages/cart_page.dart';
 import 'package:blagodat/presentation/pages/home/product_home_preview_card.dart';
 import 'package:blagodat/presentation/widgets/brand_header.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +18,7 @@ class HomeFragment extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const CustomScrollView(
+    return CustomScrollView(
       slivers: [
         SliverAppBar(
           expandedHeight: expandedHeight,
@@ -28,16 +29,23 @@ class HomeFragment extends StatelessWidget {
             titlePadding: EdgeInsets.zero,
             title: BrandHeader(
               brandedText: headerText,
-              trailing: Icon(Icons.abc),
+              trailing: GestureDetector(
+                onTap: () => Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => const CartPage(),
+                  ),
+                ),
+                child: const Icon(Icons.abc),
+              ),
             ),
           ),
         ),
         // TODO: Promo
-        SliverToBoxAdapter(
+        const SliverToBoxAdapter(
           child: Placeholder(fallbackHeight: 300),
         ),
         // TODO: Categories
-        SliverAppBar(
+        const SliverAppBar(
           pinned: true,
           // Disable expanding
           toolbarHeight: 1,
@@ -49,7 +57,7 @@ class HomeFragment extends StatelessWidget {
             ),
           ),
         ),
-        SliverPadding(
+        const SliverPadding(
           padding: EdgeInsets.symmetric(horizontal: Paddings.medium),
           sliver: _ProductSliverList(),
         ),
