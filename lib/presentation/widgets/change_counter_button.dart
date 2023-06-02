@@ -33,7 +33,7 @@ class ChangeCounterButton extends StatelessWidget {
     required this.counter,
     required this.increase,
     required this.decrase,
-    this.paddingNonZero = Paddings.small + 4,
+    this.paddingNonZero = 8,
   }) : super(key: key);
 
   @override
