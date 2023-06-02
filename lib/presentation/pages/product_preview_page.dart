@@ -1,9 +1,11 @@
 import 'package:blagodat/data/shop/info/product.dart';
+import 'package:blagodat/domain/di.dart';
 import 'package:blagodat/presentation/constants/borders_radius.dart';
 import 'package:blagodat/presentation/constants/durations.dart';
 import 'package:blagodat/presentation/constants/font_sizes.dart';
 import 'package:blagodat/presentation/constants/paddings.dart';
 import 'package:blagodat/presentation/constants/shadows.dart';
+import 'package:blagodat/presentation/widgets/change_counter_button.dart';
 import 'package:blagodat/presentation/widgets/sub_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,7 +14,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 final _selectedImageIndex = StateProvider((ref) => 0);
 
 /// Странца, отображающая информацию о товаре.
-class ProductPreviewPage extends StatelessWidget {
+class ProductPreviewPage extends ConsumerWidget {
   static const String title = "Просмотр";
   static const mainImageRatio = 360 / 290;
   static const smallCardSize = 90.0;
@@ -21,7 +23,9 @@ class ProductPreviewPage extends StatelessWidget {
   const ProductPreviewPage({Key? key, required this.product}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final cartCount = ref.watch(cartProvider)[product] ?? 0;
+
     return SubPage(
       title: title,
       body: Column(
@@ -88,7 +92,19 @@ class ProductPreviewPage extends StatelessWidget {
             ),
           ),
           // TODO: Controls
-          const Placeholder(fallbackHeight: 88),
+          Center(
+            child: SizedBox(
+              width: 200,
+              height: 80,
+              child: ChangeCounterButton(
+                zeroTitle: "Добавить",
+                counter: cartCount,
+                increase: () => ref.watch(cartProvider.notifier).add(product),
+                decrase: () =>
+                    ref.watch(cartProvider.notifier).decrase(product),
+              ),
+            ),
+          ),
         ],
       ),
     );
