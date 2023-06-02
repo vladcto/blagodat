@@ -186,9 +186,12 @@ class _ControlsRow extends ConsumerWidget {
           Expanded(
             flex: 3,
             child: Padding(
+              // TODO: Вынести в константы и соотнести отсутп с [ChangeCounterButton].
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: Align(
                 alignment: Alignment.topLeft,
+                // TODO: Не хардкодить размер текста, а расширять его по мере.
+                // TODO: Вынести жирность шрифта в константы.
                 child: Text(
                   "\$ ${product.cost.toStringAsFixed(2)}",
                   textAlign: TextAlign.left,
