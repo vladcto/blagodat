@@ -7,10 +7,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 ///
 /// Хранит **неизменямый** словарь,
 /// где *ключ* - [Product], а *значение* - его количество в корзине.
-class Cart extends StateNotifier<Map<Product, int>> {
+class CartStateNotifier extends StateNotifier<Map<Product, int>> {
   final Map<Product, int> _cartMap;
 
-  Cart()
+  CartStateNotifier()
       : _cartMap = {},
         super(UnmodifiableMapView({}));
 
