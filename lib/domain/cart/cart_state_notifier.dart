@@ -1,13 +1,15 @@
 import 'dart:collection';
 
 import 'package:blagodat/data/shop/info/product.dart';
+import 'package:blagodat/domain/cart/cart.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Определяет корзину покупок.
 ///
 /// Хранит **неизменямый** словарь,
 /// где *ключ* - [Product], а *значение* - его количество в корзине.
-class CartStateNotifier extends StateNotifier<Map<Product, int>> {
+class CartStateNotifier extends StateNotifier<Map<Product, int>>
+    implements Cart {
   final Map<Product, int> _cartMap;
 
   CartStateNotifier()
@@ -18,6 +20,7 @@ class CartStateNotifier extends StateNotifier<Map<Product, int>> {
   ///
   /// Если товар **отсуствует** - делает его количество = 0.
   /// Если товар **присуствует** - прибавляет к его значению +1.
+  @override
   void add(Product product) {
     _cartMap[product] = (_cartMap[product] ?? 0) + 1;
     state = UnmodifiableMapView(_cartMap);
@@ -29,6 +32,7 @@ class CartStateNotifier extends StateNotifier<Map<Product, int>> {
   /// Если товара **одна штука** - удаляет его из словаря.
   ///
   /// Если товар **отсутствует** - ничего не делает.
+  @override
   void decrase(Product product) {
     // Cant decrase so skip.
     if (_cartMap[product] == null) return;
@@ -44,8 +48,21 @@ class CartStateNotifier extends StateNotifier<Map<Product, int>> {
   }
 
   /// Полностью очищает словарь покупок.
+  @override
   void clear() {
     _cartMap.clear();
     state = UnmodifiableMapView(_cartMap);
   }
+
+  @override
+  double get cost {
+    return _cartMap.entries.fold(
+      0,
+      (previousValue, element) =>
+          previousValue + element.key.cost * element.value,
+    );
+  }
+
+  @override
+  bool get isNotEmpty => _cartMap.isNotEmpty;
 }
