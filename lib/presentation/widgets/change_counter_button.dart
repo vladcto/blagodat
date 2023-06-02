@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 /// Если счетчик < 1, то он не отображается и виджет превращается в обычную
 /// кнопку с надписью [zeroTitle].
 class ChangeCounterButton extends StatelessWidget {
-  static const double paddingNonZero = Paddings.medium;
+  static const double paddingNonZero = Paddings.small + 4;
 
   /// Заголовок, который отображается на кнопке, если [counter] == 0.
   final String zeroTitle;
@@ -33,7 +33,9 @@ class ChangeCounterButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
 
+    // Виджет, для отображения счетчтика.
     final counterChild = counter > 0
+        // Круглый счетчик.
         ? AspectRatio(
             aspectRatio: 1,
             child: CircleAvatar(
@@ -42,8 +44,10 @@ class ChangeCounterButton extends StatelessWidget {
               child: Center(child: Text("$counter")),
             ),
           )
+        // Иначе ничего не отображаем.
         : const SizedBox.shrink();
 
+    // Виджет для отображения элементов контроля на кнопке.
     final buttonChild = counter > 0
         ? _IcnrementButtons(
             increase: increase,
@@ -55,12 +59,14 @@ class ChangeCounterButton extends StatelessWidget {
       alignment: Alignment.center,
       fit: StackFit.expand,
       children: [
+        // Отображаем кнопку и элементы на ней.
         AnimatedPositioned(
           top: _buttonPadding,
           bottom: _buttonPadding,
           left: 0,
           right: 0,
           duration: Durations.standart,
+          // Отображаем кнопку, и если [counter] = 0, то включаем её.
           child: GestureDetector(
             onTap: () => counter > 0 ? null : increase(),
             child: Container(
@@ -68,11 +74,33 @@ class ChangeCounterButton extends StatelessWidget {
                 shape: const StadiumBorder(),
                 color: colorScheme.primary,
               ),
-              child: buttonChild,
+              child: AnimatedSwitcher(
+                duration: Durations.standart,
+                child: buttonChild,
+              ),
             ),
           ),
         ),
-        Positioned(child: counterChild),
+        // Отображаем счетчик
+        Positioned(
+          child: AnimatedSwitcher(
+            transitionBuilder: (Widget child, Animation<double> animation) {
+              // Появление сверху с постепенным появлением.
+              return FadeTransition(
+                opacity: animation,
+                child: SlideTransition(
+                  position: Tween(
+                    begin: const Offset(0, -0.3),
+                    end: const Offset(0, 0),
+                  ).animate(animation),
+                  child: child,
+                ),
+              );
+            },
+            duration: Durations.standart,
+            child: counterChild,
+          ),
+        ),
       ],
     );
   }
@@ -80,6 +108,7 @@ class ChangeCounterButton extends StatelessWidget {
   double get _buttonPadding => counter > 0 ? paddingNonZero : 0;
 }
 
+/// Ряд кнопок для уменьшения, а затем увелечения чего либо.
 class _IcnrementButtons extends StatelessWidget {
   final void Function() increase;
   final void Function() decrase;
@@ -97,8 +126,8 @@ class _IcnrementButtons extends StatelessWidget {
           child: Align(
             alignment: Alignment.centerLeft,
             child: IconButton(
-              onPressed: increase,
-              icon: const Icon(Icons.add),
+              onPressed: decrase,
+              icon: const Icon(Icons.remove),
             ),
           ),
         ),
@@ -106,8 +135,8 @@ class _IcnrementButtons extends StatelessWidget {
           child: Align(
             alignment: Alignment.centerRight,
             child: IconButton(
-              onPressed: decrase,
-              icon: const Icon(Icons.remove),
+              onPressed: increase,
+              icon: const Icon(Icons.add),
             ),
           ),
         )
