@@ -86,24 +86,15 @@ class ProductPreviewPage extends ConsumerWidget {
                   textAlign: TextAlign.justify,
                   style: const TextStyle(
                     fontSize: FontSize.small,
+                    height: 1.1,
                   ),
                 ),
               ),
             ),
           ),
-          // TODO: Controls
-          Center(
-            child: SizedBox(
-              width: 200,
-              height: 80,
-              child: ChangeCounterButton(
-                zeroTitle: "Добавить",
-                counter: cartCount,
-                increase: () => ref.watch(cartProvider.notifier).add(product),
-                decrase: () =>
-                    ref.watch(cartProvider.notifier).decrase(product),
-              ),
-            ),
+          SizedBox(
+            height: 100,
+            child: _ControlsRow(product),
           ),
         ],
       ),
@@ -172,6 +163,62 @@ class _ProductImageListView extends ConsumerWidget {
       itemBuilder: (_, i) => i % 2 == 0
           ? productChilds[i ~/ 2]
           : const SizedBox(width: Paddings.small),
+    );
+  }
+}
+
+/// Виджет, который отображает цену и кнопку добавления в корзину.
+class _ControlsRow extends ConsumerWidget {
+  final Product product;
+  const _ControlsRow(this.product);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Padding(
+      padding: const EdgeInsets.only(
+        left: Paddings.medium,
+        right: Paddings.medium,
+        bottom: Paddings.large,
+        top: Paddings.small / 2,
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            flex: 3,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  "\$ ${product.cost.toStringAsFixed(2)}",
+                  textAlign: TextAlign.left,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 36,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          const Expanded(
+            flex: 1,
+            child: SizedBox.shrink(),
+          ),
+          Expanded(
+            flex: 4,
+            child: Align(
+              alignment: Alignment.centerRight,
+              child: ChangeCounterButton(
+                zeroTitle: "Добавить",
+                counter: ref.watch(cartProvider)[product] ?? 0,
+                increase: () => ref.watch(cartProvider.notifier).add(product),
+                decrase: () =>
+                    ref.watch(cartProvider.notifier).decrase(product),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
