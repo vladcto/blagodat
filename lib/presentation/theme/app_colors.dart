@@ -1,4 +1,4 @@
-import "dart:ui";
+import "package:flutter/material.dart";
 
 sealed class AppColors {
   /// Main color for app.
@@ -11,4 +11,5 @@ sealed class AppColors {
   static const lightGrey = Color.fromRGBO(189, 189, 189, 1);
   static const softWhite = Color.fromRGBO(248, 248, 248, 1);
   static const whiteYellow = Color.fromRGBO(254, 254, 244, 1);
+  static const white = Colors.white;
 }

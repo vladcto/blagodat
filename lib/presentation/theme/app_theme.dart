@@ -10,6 +10,7 @@ sealed class AppTheme {
       secondary: AppColors.darkOrange,
       onSecondary: AppColors.softDark,
       surface: AppColors.softWhite,
+      surfaceVariant: AppColors.white,
       onSurface: AppColors.softDark,
       tertiary: AppColors.grey,
     ),

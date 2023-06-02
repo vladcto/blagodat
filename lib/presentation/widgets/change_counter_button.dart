@@ -1,6 +1,6 @@
 import 'package:blagodat/presentation/constants/durations.dart';
 import 'package:blagodat/presentation/constants/paddings.dart';
-import 'package:blagodat/presentation/theme/app_colors.dart';
+import 'package:blagodat/presentation/constants/shadows.dart';
 import 'package:flutter/material.dart';
 
 /// Виджет, который может отображать счетчик, увеличивать и уменьшать его.
@@ -8,7 +8,10 @@ import 'package:flutter/material.dart';
 /// Если счетчик < 1, то он не отображается и виджет превращается в обычную
 /// кнопку с надписью [zeroTitle].
 class ChangeCounterButton extends StatelessWidget {
-  static const double paddingNonZero = Paddings.small + 4;
+  static const double zeroTitleFontSize = 20;
+  static const double counterFontSize = 20;
+  static const fontWeight = FontWeight.w500;
+  static const double counterYAnimation = -0.3;
 
   /// Заголовок, который отображается на кнопке, если [counter] == 0.
   final String zeroTitle;
@@ -19,15 +22,19 @@ class ChangeCounterButton extends StatelessWidget {
   /// Вызывается при нажатие на кнопку или при нажатие на инкремент.
   final void Function() increase;
 
+  /// Отступ кнопки при ненулевом значении счетчика.
+  final double paddingNonZero;
+
   /// Вызывается при нажатии на кнопку декремента.
   final void Function() decrase;
-  const ChangeCounterButton(
-      {Key? key,
-      required this.zeroTitle,
-      required this.counter,
-      required this.increase,
-      required this.decrase})
-      : super(key: key);
+  const ChangeCounterButton({
+    Key? key,
+    required this.zeroTitle,
+    required this.counter,
+    required this.increase,
+    required this.decrase,
+    this.paddingNonZero = Paddings.small + 4,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -36,16 +43,24 @@ class ChangeCounterButton extends StatelessWidget {
     // Виджет, для отображения счетчтика.
     final counterChild = counter > 0
         // Круглый счетчик.
-        ? AspectRatio(
-            aspectRatio: 1,
-            child: CircleAvatar(
-              foregroundColor: Colors.white,
-              backgroundColor: AppColors.mainOrange,
-              child: Center(child: Text("$counter")),
+        ? Container(
+            decoration: ShapeDecoration(
+              shape: const CircleBorder(),
+              color: colorScheme.surfaceVariant,
+              shadows: const [Shadows.topDown],
+            ),
+            alignment: Alignment.center,
+            child: Text(
+              "$counter",
+              style: TextStyle(
+                color: colorScheme.onPrimary,
+                fontWeight: fontWeight,
+                fontSize: counterFontSize,
+              ),
             ),
           )
         // Иначе ничего не отображаем.
-        : const SizedBox.shrink();
+        : null;
 
     // Виджет для отображения элементов контроля на кнопке.
     final buttonChild = counter > 0
@@ -53,7 +68,16 @@ class ChangeCounterButton extends StatelessWidget {
             increase: increase,
             decrase: decrase,
           )
-        : const Center(child: Text("Some text"));
+        : Center(
+            child: Text(
+              zeroTitle,
+              style: TextStyle(
+                fontSize: zeroTitleFontSize,
+                fontWeight: fontWeight,
+                color: colorScheme.onPrimary,
+              ),
+            ),
+          );
 
     return Stack(
       alignment: Alignment.center,
@@ -72,7 +96,8 @@ class ChangeCounterButton extends StatelessWidget {
             child: Container(
               decoration: ShapeDecoration(
                 shape: const StadiumBorder(),
-                color: colorScheme.primary,
+                color: colorScheme.secondary,
+                shadows: const [Shadows.topDown],
               ),
               child: AnimatedSwitcher(
                 duration: Durations.standart,
@@ -90,7 +115,7 @@ class ChangeCounterButton extends StatelessWidget {
                 opacity: animation,
                 child: SlideTransition(
                   position: Tween(
-                    begin: const Offset(0, -0.3),
+                    begin: const Offset(0, counterYAnimation),
                     end: const Offset(0, 0),
                   ).animate(animation),
                   child: child,
