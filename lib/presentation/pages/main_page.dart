@@ -21,17 +21,15 @@ class MainPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // TODO: Добавит отступ для строки статуса. Сделать цвет статуса в тему.
-    // TODo: Может SafeArea, а может сделать Padding в child.
     return Scaffold(
       extendBody: true,
       bottomNavigationBar: FloatingBottomBar(
         activeColor: Colors.yellow,
         inactiveColor: Colors.white,
         icons: const [
-          Icons.abc,
           Icons.home,
-          Icons.circle,
+          Icons.loyalty,
+          Icons.history,
         ],
         margin: const EdgeInsets.only(
           left: barSideMargin,
