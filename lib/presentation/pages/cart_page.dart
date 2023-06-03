@@ -123,7 +123,7 @@ class _CartCostContainer extends ConsumerWidget {
         ),
         const SizedBox(height: Paddings.medium),
         ElevatedButton(
-          onPressed: () {},
+          onPressed: () => ref.read(purchaseManager).purchase(100, 100),
           child: Placeholder(
             fallbackHeight: 60,
           ),
