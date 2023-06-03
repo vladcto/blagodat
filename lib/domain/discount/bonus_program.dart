@@ -3,7 +3,7 @@ import 'package:blagodat/domain/discount/discount_provider.dart';
 import 'package:blagodat/domain/shop/transaction.dart';
 
 class BonusProgram implements DiscountProvider, BonusProvider {
-  int _bonus = 0;
+  int _bonus = 100;
 
   @override
   double get discount => 0.6;
@@ -22,7 +22,8 @@ class BonusProgram implements DiscountProvider, BonusProvider {
   /// Если количество бонусов для траты больше,
   @override
   void spendBonus(int spendBonus) {
-    if (_bonus > spendBonus) {
+    print(_bonus);
+    if (_bonus < spendBonus) {
       throw Exception(
           "Количество бонусов для траты больше, чем бонусов в пуле.");
     }

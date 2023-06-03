@@ -1,4 +1,6 @@
 import 'package:blagodat/domain/di.dart';
+import 'package:blagodat/domain/shop/purchase_manager.dart';
+import 'package:blagodat/presentation/constants/borders_radius.dart';
 import 'package:blagodat/presentation/constants/font_sizes.dart';
 import 'package:blagodat/presentation/constants/paddings.dart';
 import 'package:blagodat/presentation/pages/cart/mock_card_payment.dart';
@@ -80,6 +82,8 @@ class CartPage extends ConsumerWidget {
   }
 }
 
+final _chooseBonus = StateProvider<int>((ref) => 0);
+
 class _CartCostContainer extends ConsumerWidget {
   const _CartCostContainer();
 
@@ -89,6 +93,8 @@ class _CartCostContainer extends ConsumerWidget {
     final cost = ref.watch(cartProvider.notifier).cost;
     final discountCost = (1 - ref.watch(discountProvider).discount) * cost;
     final total = ref.watch(discountProvider).discount * cost;
+    final purchase = ref.watch(purchaseManager);
+    final bonusSpend = ref.watch(_chooseBonus);
 
     return Column(
       children: [
@@ -135,10 +141,25 @@ class _CartCostContainer extends ConsumerWidget {
           ),
         ),
         const SizedBox(height: Paddings.medium),
-        ElevatedButton(
-          onPressed: () => showCartPayment(context),
-          child: Placeholder(
-            fallbackHeight: 60,
+        Center(
+          child: SizedBox(
+            height: 60,
+            width: 220,
+            child: GestureDetector(
+              onTap: () => showCartPayment(
+                context,
+                purchase,
+                bonusSpend,
+              ),
+              child: Container(
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10000),
+                  color: AppColors.mainOrange,
+                ),
+                child: Text("Купить"),
+              ),
+            ),
           ),
         ),
         const SizedBox(height: Paddings.large),
@@ -146,13 +167,32 @@ class _CartCostContainer extends ConsumerWidget {
     );
   }
 
-  void showCartPayment(BuildContext context) {
+  void showCartPayment(
+      BuildContext context, PurchaseManager manager, int bonusSpend) {
     showDialog(
-        context: context, builder: (_) => MockCardPayment(onPayment: (_) {}));
+      context: context,
+      builder: (_) => MockCardPayment(
+        onPayment: (cash) {
+          bool result = manager.purchase(cash, bonusSpend);
+          if (result) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text("Оплата успешна."),
+              ),
+            );
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                duration: Duration(milliseconds: 500),
+                content: Text("Недостаточно средств на лицевом счете."),
+              ),
+            );
+          }
+        },
+      ),
+    );
   }
 }
-
-final _chooseBonus = StateProvider<int>((ref) => 0);
 
 class _BonusField extends ConsumerStatefulWidget {
   const _BonusField({super.key});
@@ -178,7 +218,7 @@ class __BonusFieldState extends ConsumerState<_BonusField> {
         int bonuses = ref.read(bonusProvider).bonus;
         int value = int.parse(text);
         if (value > bonuses) value = bonuses;
-        bonusFieldController.text = bonuses.toString();
+        bonusFieldController.text = value.toString();
         ref.read(_chooseBonus.notifier).state = value;
       },
     );

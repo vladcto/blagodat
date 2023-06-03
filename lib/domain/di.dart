@@ -19,8 +19,9 @@ final cartProvider =
 final purchaseManager = Provider<PurchaseManager>(
   (ref) {
     final cart = ref.watch(cartProvider.notifier);
+    final bonusProgram = ref.watch(bonusProvider);
     final discount = ref.watch(discountProvider);
-    final manager = PurchaseManager(cart, discount);
+    final manager = PurchaseManager(cart, discount, bonusProgram);
     ref.onDispose(() => manager.dispose());
     return manager;
   },
@@ -31,13 +32,7 @@ final streamPurchaseProvider = StreamProvider<Transaction>(
 );
 
 final _bonusProgram = Provider<BonusProgram>(
-  (ref) {
-    final bonusProgram = BonusProgram();
-    ref.watch(streamPurchaseProvider).whenData(
-          (value) => bonusProgram.performTransaction(value),
-        );
-    return bonusProgram;
-  },
+  (ref) => BonusProgram(),
 );
 
 final Provider<DiscountProvider> discountProvider = _bonusProgram;

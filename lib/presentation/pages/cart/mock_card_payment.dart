@@ -20,9 +20,12 @@ class MockCardPayment extends ConsumerWidget {
       ),
       actions: [
         TextButton(
-          onPressed: () => onPayment(
-            ref.read(_numProvider),
-          ),
+          onPressed: () {
+            onPayment(
+              ref.read(_numProvider),
+            );
+            Navigator.of(context).pop();
+          },
           child: const Text("Купить"),
         ),
       ],
