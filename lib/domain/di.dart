@@ -1,10 +1,11 @@
 import 'package:blagodat/data/shop/assortment/assortment.dart';
 import 'package:blagodat/data/shop/assortment/mock_assortment.dart';
 import 'package:blagodat/data/shop/info/product.dart';
-import 'package:blagodat/domain/bonus/bonus_program.dart';
-import 'package:blagodat/domain/bonus/discount_provider.dart';
+import 'package:blagodat/domain/discount/bonus_program.dart';
+import 'package:blagodat/domain/discount/discount_provider.dart';
 import 'package:blagodat/domain/cart/cart_state_notifier.dart';
 import 'package:blagodat/domain/shop/purchase_manager.dart';
+import 'package:blagodat/domain/shop/transaction.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final assortmentProvider = Provider<Assortment>((ref) => MockAssortment());
@@ -24,8 +25,20 @@ final purchaseManager = Provider<PurchaseManager>(
   },
 );
 
-final streamPurchaseProvider = StreamProvider(
+final streamPurchaseProvider = StreamProvider<Transaction>(
   (ref) => ref.watch(purchaseManager).transactionStream,
 );
 
-final discountProvider = Provider<DiscountProvider>((ref) => BonusProgram());
+final _bonusProgram = Provider<BonusProgram>(
+  (ref) {
+    final bonusProgram = BonusProgram();
+    ref.watch(streamPurchaseProvider).whenData(
+          (value) => bonusProgram.performTransaction(value),
+        );
+    return bonusProgram;
+  },
+);
+
+final Provider<DiscountProvider> discountProvider = _bonusProgram;
+
+final Provider<DiscountProvider> bonusProvider = _bonusProgram;

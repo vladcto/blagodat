@@ -85,6 +85,8 @@ class _CartCostContainer extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final cost = ref.watch(cartProvider.notifier).cost;
+    final discountCost = (1 - ref.watch(discountProvider).discount) * cost;
+    final total = ref.watch(discountProvider).discount * cost;
 
     return Column(
       children: [
@@ -97,19 +99,22 @@ class _CartCostContainer extends ConsumerWidget {
         ),
         Expanded(
           child: RowEndStart(
-            start: _BoldText("Цена"),
-            end: _BoldText("Конец"),
+            start: const _BoldText("Скидка:"),
+            end: _BoldText(
+              "-\$ ${discountCost.toStringAsFixed(2)}",
+              color: Colors.green,
+            ),
           ),
         ),
-        Placeholder(fallbackHeight: 8),
-        const Expanded(
+        const Placeholder(fallbackHeight: 8),
+        Expanded(
           child: RowEndStart(
-            start: _BoldText(
+            start: const _BoldText(
               "Итого:",
               fontSize: 24,
             ),
             end: _BoldText(
-              "Конец",
+              "\$ ${total.toStringAsFixed(2)}",
               fontSize: 24,
               color: Colors.green,
             ),
@@ -139,7 +144,7 @@ class _BoldText extends StatelessWidget {
   final Color? color;
   final double fontSize;
 
-  const _BoldText(this.text, {this.fontSize = 18, this.color});
+  const _BoldText(this.text, {this.fontSize = 17, this.color});
 
   @override
   Widget build(BuildContext context) {
