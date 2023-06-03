@@ -1,4 +1,4 @@
-import 'package:blagodat/domain/shop/transaction.dart';
+import 'package:blagodat/data/shop/transaction.dart';
 
 abstract interface class BonusProvider {
   int get bonus;

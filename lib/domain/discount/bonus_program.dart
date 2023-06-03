@@ -1,6 +1,6 @@
 import 'package:blagodat/domain/discount/bonus_provider.dart';
 import 'package:blagodat/domain/discount/discount_provider.dart';
-import 'package:blagodat/domain/shop/transaction.dart';
+import 'package:blagodat/data/shop/transaction.dart';
 
 class BonusProgram implements DiscountProvider, BonusProvider {
   int _bonus = 100;

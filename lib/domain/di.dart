@@ -6,7 +6,8 @@ import 'package:blagodat/domain/discount/bonus_provider.dart';
 import 'package:blagodat/domain/discount/discount_provider.dart';
 import 'package:blagodat/domain/cart/cart_state_notifier.dart';
 import 'package:blagodat/domain/shop/purchase_manager.dart';
-import 'package:blagodat/domain/shop/transaction.dart';
+import 'package:blagodat/data/shop/transaction.dart';
+import 'package:blagodat/domain/shop/transaction_history.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final assortmentProvider = Provider<Assortment>((ref) => MockAssortment());
@@ -31,10 +32,21 @@ final streamPurchaseProvider = StreamProvider<Transaction>(
   (ref) => ref.watch(purchaseManager).transactionStream,
 );
 
-final _bonusProgram = Provider<BonusProgram>(
+final _bonusProgramProvider = Provider<BonusProgram>(
   (ref) => BonusProgram(),
 );
 
-final Provider<DiscountProvider> discountProvider = _bonusProgram;
+final historyProvider =
+    StateNotifierProvider<TransactionHistoryNotfier, List<Transaction>>(
+  (ref) {
+    final transactionHistory = TransactionHistoryNotfier();
+    ref.watch(streamPurchaseProvider).whenData(
+          (value) => transactionHistory.add(value),
+        );
+    return transactionHistory;
+  },
+);
 
-final Provider<BonusProvider> bonusProvider = _bonusProgram;
+final Provider<DiscountProvider> discountProvider = _bonusProgramProvider;
+
+final Provider<BonusProvider> bonusProvider = _bonusProgramProvider;

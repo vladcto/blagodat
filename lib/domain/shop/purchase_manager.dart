@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:math';
 import 'package:blagodat/domain/cart/cart.dart';
 import 'package:blagodat/domain/discount/bonus_provider.dart';
-import 'package:blagodat/domain/shop/transaction.dart';
+import 'package:blagodat/data/shop/transaction.dart';
 import 'package:blagodat/domain/discount/discount_provider.dart';
 
 /// Менеджер оформления покупок.
