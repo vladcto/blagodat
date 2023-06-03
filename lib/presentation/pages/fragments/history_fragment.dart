@@ -1,24 +1,28 @@
 import 'package:blagodat/data/shop/transaction.dart';
 import 'package:blagodat/domain/di.dart';
 import 'package:blagodat/presentation/constants/paddings.dart';
-import 'package:blagodat/presentation/pages/main_page.dart';
 import 'package:blagodat/presentation/widgets/brand_header.dart';
+import 'package:blagodat/presentation/widgets/row_end_start.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SettingsFragment extends ConsumerWidget {
+class HistoryFragment extends ConsumerWidget {
   static const headerText = BrandedTextWithColor("История", " покупок");
 
-  const SettingsFragment({Key? key}) : super(key: key);
+  const HistoryFragment({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final transactionChilds = ref
         .watch(historyProvider)
         .map(
-          (e) => _TransactionCard(e),
+          (e) => SizedBox(
+            height: 60,
+            child: _TransactionCard(e),
+          ),
         )
         .toList();
+
     return SafeArea(
       bottom: false,
       child: Column(
@@ -31,6 +35,11 @@ class SettingsFragment extends ConsumerWidget {
           ),
           Expanded(
             child: ListView(
+              padding: const EdgeInsets.only(
+                left: Paddings.large,
+                right: Paddings.large,
+                top: Paddings.small,
+              ),
               children: transactionChilds,
             ),
           ),
@@ -41,17 +50,25 @@ class SettingsFragment extends ConsumerWidget {
 }
 
 class _TransactionCard extends StatelessWidget {
+  static const textStyle = TextStyle(
+    fontSize: 24,
+    fontWeight: FontWeight.w700,
+  );
   final Transaction transaction;
 
   const _TransactionCard(this.transaction);
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Text(transaction.purchaseTime.toString()),
-        Text("    Итого: ${transaction.totalCost.toStringAsFixed(2)} \$"),
-      ],
+    String shortDate = "${transaction.purchaseTime.day}." +
+        "${transaction.purchaseTime.month}." +
+        "${transaction.purchaseTime.year}";
+    return RowEndStart(
+      start: Text("$shortDate", style: textStyle),
+      end: Text(
+        "\$ ${transaction.totalCost.toStringAsFixed(2)}",
+        style: textStyle,
+      ),
     );
   }
 }

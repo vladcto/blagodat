@@ -12,7 +12,7 @@ class PurchaseManager {
   final BonusProvider bonusProvider;
 
   final StreamController<Transaction> _transactionStreamController =
-      StreamController<Transaction>.broadcast();
+      StreamController<Transaction>();
 
   PurchaseManager(this._cart, this._discountProvider, this.bonusProvider);
 
@@ -27,7 +27,7 @@ class PurchaseManager {
     if (!_cart.isNotEmpty) return false;
     // Может ли пользоваетель позволить себе покупку.
     double totalCost = _cart.cost * _discountProvider.discount;
-    bonus = min(totalCost.toInt(), bonus);
+    bonus = min(totalCost.ceil().toInt(), bonus);
     if (cash + bonus < totalCost) return false;
     final transaction = Transaction(
       totalCost: totalCost,

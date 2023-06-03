@@ -114,7 +114,11 @@ class _CartCostContainer extends ConsumerWidget {
             ),
           ),
         ),
-        const Placeholder(fallbackHeight: 8),
+        const SizedBox(
+          height: 2,
+          width: double.infinity,
+          child: ColoredBox(color: AppColors.softDark),
+        ),
         Expanded(
           child: RowEndStart(
             start: const _BoldText(
@@ -206,21 +210,31 @@ class __BonusFieldState extends ConsumerState<_BonusField> {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      controller: bonusFieldController,
-      keyboardType: TextInputType.number,
-      textAlign: TextAlign.center,
-      style: const TextStyle(
-        fontSize: 17,
-        fontWeight: FontWeight.w700,
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      padding: EdgeInsets.symmetric(vertical: 8),
+      decoration: BoxDecoration(
+        color: Colors.green,
+        borderRadius: BorderRadius.circular(32),
       ),
-      onSubmitted: (text) {
-        int bonuses = ref.read(bonusProvider).bonus;
-        int value = int.parse(text);
-        if (value > bonuses) value = bonuses;
-        bonusFieldController.text = value.toString();
-        ref.read(_chooseBonus.notifier).state = value;
-      },
+      alignment: Alignment.center,
+      child: TextField(
+        controller: bonusFieldController,
+        keyboardType: TextInputType.number,
+        textAlign: TextAlign.center,
+        decoration: const InputDecoration.collapsed(hintText: "0"),
+        style: const TextStyle(
+          fontSize: 17,
+          fontWeight: FontWeight.w700,
+        ),
+        onSubmitted: (text) {
+          int bonuses = ref.read(bonusProvider).bonus;
+          int value = int.parse(text);
+          if (value > bonuses) value = bonuses;
+          bonusFieldController.text = value.toString();
+          ref.read(_chooseBonus.notifier).state = value;
+        },
+      ),
     );
   }
 

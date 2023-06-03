@@ -23,13 +23,14 @@ final purchaseManager = Provider<PurchaseManager>(
     final bonusProgram = ref.watch(bonusProvider);
     final discount = ref.watch(discountProvider);
     final manager = PurchaseManager(cart, discount, bonusProgram);
-    ref.onDispose(() => manager.dispose());
     return manager;
   },
 );
 
-final streamPurchaseProvider = StreamProvider<Transaction>(
-  (ref) => ref.watch(purchaseManager).transactionStream,
+final streamPurchaseProvider = Provider<Stream<Transaction>>(
+  (ref) {
+    return ref.watch(purchaseManager).transactionStream;
+  },
 );
 
 final _bonusProgramProvider = Provider<BonusProgram>(
@@ -40,9 +41,11 @@ final historyProvider =
     StateNotifierProvider<TransactionHistoryNotfier, List<Transaction>>(
   (ref) {
     final transactionHistory = TransactionHistoryNotfier();
-    ref.watch(streamPurchaseProvider).whenData(
-          (value) => transactionHistory.add(value),
-        );
+    ref.read(streamPurchaseProvider).listen(
+      (value) {
+        transactionHistory.add(value);
+      },
+    );
     return transactionHistory;
   },
 );

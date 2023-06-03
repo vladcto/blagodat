@@ -1,5 +1,5 @@
 import 'package:blagodat/presentation/constants/paddings.dart';
-import 'package:blagodat/presentation/pages/fragments/settings_fragment.dart';
+import 'package:blagodat/presentation/pages/fragments/history_fragment.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -46,7 +46,7 @@ class MainPage extends ConsumerWidget {
         children: const [
           HomeFragment(),
           LoyaltyFragment(),
-          SettingsFragment(),
+          HistoryFragment(),
         ],
       ),
     );
