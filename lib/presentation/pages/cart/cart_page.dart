@@ -3,6 +3,7 @@ import 'package:blagodat/domain/shop/purchase_manager.dart';
 import 'package:blagodat/presentation/constants/borders_radius.dart';
 import 'package:blagodat/presentation/constants/font_sizes.dart';
 import 'package:blagodat/presentation/constants/paddings.dart';
+import 'package:blagodat/presentation/constants/shadows.dart';
 import 'package:blagodat/presentation/pages/cart/mock_card_payment.dart';
 import 'package:blagodat/presentation/theme/app_colors.dart';
 import 'package:blagodat/presentation/widgets/product_in_cart_card.dart';
@@ -160,6 +161,7 @@ class _CartCostContainer extends ConsumerWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10000),
                   color: AppColors.mainOrange,
+                  boxShadow: const [Shadows.standart],
                 ),
                 child: Text("Купить"),
               ),
@@ -211,7 +213,7 @@ class __BonusFieldState extends ConsumerState<_BonusField> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      margin: EdgeInsets.symmetric(horizontal: 8),
       padding: EdgeInsets.symmetric(vertical: 8),
       decoration: BoxDecoration(
         color: Colors.green,
