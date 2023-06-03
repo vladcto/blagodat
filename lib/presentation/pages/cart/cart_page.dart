@@ -1,6 +1,7 @@
 import 'package:blagodat/domain/di.dart';
 import 'package:blagodat/presentation/constants/font_sizes.dart';
 import 'package:blagodat/presentation/constants/paddings.dart';
+import 'package:blagodat/presentation/pages/cart/mock_card_payment.dart';
 import 'package:blagodat/presentation/theme/app_colors.dart';
 import 'package:blagodat/presentation/widgets/product_in_cart_card.dart';
 import 'package:blagodat/presentation/widgets/row_end_start.dart';
@@ -72,7 +73,7 @@ class CartPage extends ConsumerWidget {
               ),
               child: const _CartCostContainer(),
             ),
-          )
+          ),
         ],
       ),
     );
@@ -80,10 +81,11 @@ class CartPage extends ConsumerWidget {
 }
 
 class _CartCostContainer extends ConsumerWidget {
-  const _CartCostContainer({super.key});
+  const _CartCostContainer();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.watch(cartProvider);
     final cost = ref.watch(cartProvider.notifier).cost;
     final discountCost = (1 - ref.watch(discountProvider).discount) * cost;
     final total = ref.watch(discountProvider).discount * cost;
@@ -128,7 +130,7 @@ class _CartCostContainer extends ConsumerWidget {
         ),
         const SizedBox(height: Paddings.medium),
         ElevatedButton(
-          onPressed: () => ref.read(purchaseManager).purchase(100, 100),
+          onPressed: () => showCartPayment(context),
           child: Placeholder(
             fallbackHeight: 60,
           ),
@@ -136,6 +138,11 @@ class _CartCostContainer extends ConsumerWidget {
         const SizedBox(height: Paddings.large),
       ],
     );
+  }
+
+  void showCartPayment(BuildContext context) {
+    showDialog(
+        context: context, builder: (_) => MockCardPayment(onPayment: (_) {}));
   }
 }
 
