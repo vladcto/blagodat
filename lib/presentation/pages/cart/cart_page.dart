@@ -122,10 +122,16 @@ class _CartCostContainer extends ConsumerWidget {
             ),
           ),
         ),
+        // Трата бонусов.
         Expanded(
-          child: RowEndStart(
-            start: _BoldText("Цена"),
-            end: _BoldText("Конец"),
+          child: Row(
+            children: [
+              _BoldText("Потратить: "),
+              Expanded(
+                child: _BonusField(),
+              ),
+              _BoldText("бонус из ${ref.watch(bonusProvider).bonus} бонусов.")
+            ],
           ),
         ),
         const SizedBox(height: Paddings.medium),
@@ -143,6 +149,45 @@ class _CartCostContainer extends ConsumerWidget {
   void showCartPayment(BuildContext context) {
     showDialog(
         context: context, builder: (_) => MockCardPayment(onPayment: (_) {}));
+  }
+}
+
+final _chooseBonus = StateProvider<int>((ref) => 0);
+
+class _BonusField extends ConsumerStatefulWidget {
+  const _BonusField({super.key});
+
+  @override
+  ConsumerState<_BonusField> createState() => __BonusFieldState();
+}
+
+class __BonusFieldState extends ConsumerState<_BonusField> {
+  final bonusFieldController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      controller: bonusFieldController,
+      keyboardType: TextInputType.number,
+      textAlign: TextAlign.center,
+      style: const TextStyle(
+        fontSize: 17,
+        fontWeight: FontWeight.w700,
+      ),
+      onSubmitted: (text) {
+        int bonuses = ref.read(bonusProvider).bonus;
+        int value = int.parse(text);
+        if (value > bonuses) value = bonuses;
+        bonusFieldController.text = bonuses.toString();
+        ref.read(_chooseBonus.notifier).state = value;
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    bonusFieldController.dispose();
+    super.dispose();
   }
 }
 

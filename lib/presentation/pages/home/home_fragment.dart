@@ -1,7 +1,6 @@
-import 'package:blagodat/data/shop/info/product.dart';
 import 'package:blagodat/domain/di.dart';
 import 'package:blagodat/presentation/constants/paddings.dart';
-import 'package:blagodat/presentation/pages/cart_page.dart';
+import 'package:blagodat/presentation/pages/cart/cart_page.dart';
 import 'package:blagodat/presentation/pages/home/product_home_preview_card.dart';
 import 'package:blagodat/presentation/widgets/brand_header.dart';
 import 'package:flutter/material.dart';

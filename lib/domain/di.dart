@@ -2,6 +2,7 @@ import 'package:blagodat/data/shop/assortment/assortment.dart';
 import 'package:blagodat/data/shop/assortment/mock_assortment.dart';
 import 'package:blagodat/data/shop/info/product.dart';
 import 'package:blagodat/domain/discount/bonus_program.dart';
+import 'package:blagodat/domain/discount/bonus_provider.dart';
 import 'package:blagodat/domain/discount/discount_provider.dart';
 import 'package:blagodat/domain/cart/cart_state_notifier.dart';
 import 'package:blagodat/domain/shop/purchase_manager.dart';
@@ -41,4 +42,4 @@ final _bonusProgram = Provider<BonusProgram>(
 
 final Provider<DiscountProvider> discountProvider = _bonusProgram;
 
-final Provider<DiscountProvider> bonusProvider = _bonusProgram;
+final Provider<BonusProvider> bonusProvider = _bonusProgram;

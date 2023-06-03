@@ -1,3 +1,4 @@
+import 'package:blagodat/presentation/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -11,6 +12,7 @@ class MockCardPayment extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return AlertDialog(
+      backgroundColor: AppColors.white,
       content: TextField(
         keyboardType: TextInputType.number,
         onChanged: (text) =>
@@ -21,7 +23,7 @@ class MockCardPayment extends ConsumerWidget {
           onPressed: () => onPayment(
             ref.read(_numProvider),
           ),
-          child: Text("Купить"),
+          child: const Text("Купить"),
         ),
       ],
     );
