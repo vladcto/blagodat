@@ -1,47 +1,57 @@
+import 'package:blagodat/data/shop/transaction.dart';
+import 'package:blagodat/domain/di.dart';
 import 'package:blagodat/presentation/constants/paddings.dart';
 import 'package:blagodat/presentation/pages/main_page.dart';
 import 'package:blagodat/presentation/widgets/brand_header.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SettingsFragment extends StatelessWidget {
-  static const headerText = BrandedTextWithColor("Set", "tings");
+class SettingsFragment extends ConsumerWidget {
+  static const headerText = BrandedTextWithColor("История", " покупок");
 
   const SettingsFragment({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return const SafeArea(
+  Widget build(BuildContext context, WidgetRef ref) {
+    final transactionChilds = ref
+        .watch(historyProvider)
+        .map(
+          (e) => _TransactionCard(e),
+        )
+        .toList();
+    return SafeArea(
       bottom: false,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          SizedBox(
+          const SizedBox(
             child: BrandHeader(
               brandedText: headerText,
             ),
           ),
-          // TODO: Theme settings.
           Expanded(
-            child: Center(
-              child: Placeholder(
-                child: SizedBox(
-                  width: 152,
-                  height: 165,
-                ),
-              ),
+            child: ListView(
+              children: transactionChilds,
             ),
           ),
-          // TODO: Credits btn.
-          Padding(
-            padding: EdgeInsets.all(Paddings.medium),
-            child: Placeholder(
-              fallbackHeight: 50,
-            ),
-          ),
-          // Bottom bar space
-          SizedBox(height: MainPage.pageBarPadding),
         ],
       ),
+    );
+  }
+}
+
+class _TransactionCard extends StatelessWidget {
+  final Transaction transaction;
+
+  const _TransactionCard(this.transaction);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Text(transaction.purchaseTime.toString()),
+        Text("    Итого: ${transaction.totalCost.toStringAsFixed(2)} \$"),
+      ],
     );
   }
 }
