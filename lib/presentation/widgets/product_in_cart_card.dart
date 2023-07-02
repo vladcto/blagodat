@@ -2,6 +2,7 @@ import 'package:blagodat/data/shop/info/product.dart';
 import 'package:blagodat/domain/di.dart';
 import 'package:blagodat/presentation/constants/borders_radius.dart';
 import 'package:blagodat/presentation/constants/paddings.dart';
+import 'package:blagodat/presentation/pages/product_preview_page.dart';
 import 'package:blagodat/presentation/widgets/change_counter_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -13,26 +14,33 @@ class ProductInCartCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        AspectRatio(
-          aspectRatio: 0.95,
-          child: ClipRRect(
-            borderRadius: BordersRadius.standart,
-            child: Image.network(
-              product.imageURL[0],
-              fit: BoxFit.cover,
+    return GestureDetector(
+      onTap: () => Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (_) => ProductPreviewPage(product: product),
+        ),
+      ),
+      child: Row(
+        children: [
+          AspectRatio(
+            aspectRatio: 0.95,
+            child: ClipRRect(
+              borderRadius: BordersRadius.standart,
+              child: Image.network(
+                product.imageURL[0],
+                fit: BoxFit.cover,
+              ),
             ),
           ),
-        ),
-        const SizedBox(width: 16),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.only(top: Paddings.small),
-            child: _InCartSideInfo(product),
-          ),
-        )
-      ],
+          const SizedBox(width: 16),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(top: Paddings.small),
+              child: _InCartSideInfo(product),
+            ),
+          )
+        ],
+      ),
     );
   }
 }

@@ -1,5 +1,4 @@
 import 'package:blagodat/presentation/constants/durations.dart';
-import 'package:blagodat/presentation/constants/paddings.dart';
 import 'package:blagodat/presentation/constants/shadows.dart';
 import 'package:flutter/material.dart';
 
